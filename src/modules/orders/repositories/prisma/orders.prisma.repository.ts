@@ -14,7 +14,7 @@ export class OrdersPrismaRepository implements OrdersRepository {
     const newOrder = await this.prisma.order.create({
       data: { ...order },
     });
-    return newOrder
+    return newOrder;
   }
   async findAll(): Promise<Order[]> {
     return await this.prisma.order.findMany({ include: { products: true } });
