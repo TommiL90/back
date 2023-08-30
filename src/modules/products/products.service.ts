@@ -10,6 +10,7 @@ export class ProductsService {
     private productsRepository: ProductsRepository,
     private categoriesService: CategoriesService,
   ) {}
+
   create(createProductDto: CreateProductDto) {
     this.verifyCategory(createProductDto.categoryId);
     return this.productsRepository.create(createProductDto);

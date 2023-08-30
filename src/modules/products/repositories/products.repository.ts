@@ -4,8 +4,11 @@ import { UpdateProductDto } from '../dto/update-product.dto';
 
 export abstract class ProductsRepository {
   abstract create(createProductDto: CreateProductDto): Promise<Product>;
+
   abstract findAll(): Promise<Product[]>;
+
   abstract findOne(id: string): Promise<Product>;
+
   abstract update(
     id: string,
     updateProductDto: UpdateProductDto,

@@ -6,6 +6,7 @@ import { CategoriesRepository } from './repositories/categories.repository';
 @Injectable()
 export class CategoriesService {
   constructor(private categoriesRepository: CategoriesRepository) {}
+
   async create(createCategoryDto: CreateCategoryDto) {
     const findCategory = await this.categoriesRepository.findByName(
       createCategoryDto.name,

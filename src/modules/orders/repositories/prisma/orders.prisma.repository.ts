@@ -8,6 +8,7 @@ import { PrismaService } from '../../../../database/prisma.service';
 @Injectable()
 export class OrdersPrismaRepository implements OrdersRepository {
   constructor(private prisma: PrismaService) {}
+
   async create(data: CreateOrderDto): Promise<Order> {
     const order = new Order();
     Object.assign(order, data);
@@ -16,15 +17,18 @@ export class OrdersPrismaRepository implements OrdersRepository {
     });
     return newOrder;
   }
+
   async findAll(): Promise<Order[]> {
     return await this.prisma.order.findMany({ include: { products: true } });
   }
+
   async findOne(id: string): Promise<Order> {
     return await this.prisma.order.findUnique({
       include: { products: true },
       where: { id },
     });
   }
+
   async update(id: string, order: UpdateOrderDto): Promise<Order> {
     const updatedOrder = await this.prisma.order.update({
       where: { id },
@@ -34,6 +38,7 @@ export class OrdersPrismaRepository implements OrdersRepository {
 
     return updatedOrder;
   }
+
   async remove(id: string): Promise<void> {
     await this.prisma.order.delete({ where: { id } });
   }
