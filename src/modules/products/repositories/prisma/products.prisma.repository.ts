@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { ProductsRepository } from '../products.repository';
 import { CreateProductDto } from '../../dto/create-product.dto';
 import { UpdateProductDto } from '../../dto/update-product.dto';
 import { Product } from '../../entities/product.entity';
 import { PrismaService } from '../../../../database/prisma.service';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class ProductsPrismaRepository implements ProductsRepository {

@@ -7,6 +7,7 @@ import { Order } from './entities/order.entity';
 @Injectable()
 export class OrdersService {
   constructor(private ordersRepository: OrdersRepository) {}
+
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
     return await this.ordersRepository.create(createOrderDto);
   }
@@ -36,6 +37,6 @@ export class OrdersService {
     if (!order) {
       throw new NotFoundException(`Order with ID ${id} not found`);
     }
-    return this.ordersRepository.remove(id);
+    return await this.ordersRepository.remove(id);
   }
 }

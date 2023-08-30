@@ -1,10 +1,10 @@
 import { PrismaService } from 'src/database/prisma.service';
+import { Injectable } from '@nestjs/common';
 import { CategoryName } from '../../../../common/category.enum';
 import { CreateCategoryDto } from '../../dto/create-category.dto';
 import { UpdateCategoryDto } from '../../dto/update-category.dto';
 import { Category } from '../../entities/category.entity';
 import { CategoriesRepository } from '../categories.repository';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CategoriesPrismaRepository implements CategoriesRepository {
@@ -20,20 +20,24 @@ export class CategoriesPrismaRepository implements CategoriesRepository {
 
     return newCategory;
   }
-  async findAll(): Promise<Category[]> {
-    return await this.prisma.category.findMany();
+
+  findAll(): Promise<Category[]> {
+    return this.prisma.category.findMany();
   }
-  async findOne(id: string): Promise<Category> {
-    return await this.prisma.category.findUnique({
+
+  findOne(id: string): Promise<Category> {
+    return this.prisma.category.findUnique({
       where: { id },
       include: { products: true },
     });
   }
+
   async findByName(name: CategoryName): Promise<Category> {
     return await this.prisma.category.findFirst({
       where: { name },
     });
   }
+
   async update(id: string, category: UpdateCategoryDto): Promise<Category> {
     const updatedCategory = await this.prisma.category.update({
       where: { id },

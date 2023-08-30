@@ -3,10 +3,15 @@ import { OrdersStatus } from '../../../common/orderStatus.enum';
 
 export class Order {
   readonly id: string;
+
   description: string;
+
   status: string;
+
   paid: boolean;
+
   createdAt: Date;
+
   updatedAt: Date;
 
   constructor() {

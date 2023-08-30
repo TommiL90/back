@@ -6,8 +6,8 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { OrdersStatus } from '../../../common/orderStatus.enum';
 import { CategoryName } from 'src/common/category.enum';
+import { OrdersStatus } from '../../../common/orderStatus.enum';
 
 export class CreateOrderDto {
   @ApiProperty({
