@@ -11,11 +11,11 @@ datasource db {
 }
 
 model Order {
-  id          Int            @id
+  id          String         @id
   status      String
-  description String
-  paid        Boolean        @default(false)
-  createdAt   DateTime       @default(now())
+  description String?
+  paid        Boolean
+  createdAt   DateTime
   updatedAt   DateTime       @updatedAt
   products    ProductOrder[]
 }
@@ -27,7 +27,7 @@ model Product {
   price       Float
   categoryId  String
   imageUrl    String
-  createdAt   DateTime       @default(now())
+  createdAt   DateTime
   updatedAt   DateTime       @updatedAt
   orders      ProductOrder[]
   category    Category       @relation(fields: [categoryId], references: [id])
@@ -36,7 +36,7 @@ model Product {
 model Category {
   id        String    @id @default(uuid())
   name      String    @unique
-  createdAt DateTime  @default(now())
+  createdAt DateTime
   updatedAt DateTime  @updatedAt
   products  Product[]
 }
@@ -44,7 +44,7 @@ model Category {
 model ProductOrder {
   id        String  @id @default(uuid())
   productId String
-  orderId   Int
+  orderId   String
   quantity  Int
   product   Product @relation(fields: [productId], references: [id])
   order     Order   @relation(fields: [orderId], references: [id])
