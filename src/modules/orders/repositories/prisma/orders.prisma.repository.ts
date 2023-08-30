@@ -7,11 +7,14 @@ import { PrismaService } from '../../../../database/prisma.service';
 
 @Injectable()
 export class OrdersPrismaRepository implements OrdersRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: CreateOrderDto): Promise<Order> {
+    
+    const { products, ...rest } = data
+    
     const order = new Order();
-    Object.assign(order, data);
+    Object.assign(order, rest);
     const newOrder = await this.prisma.order.create({
       data: { ...order },
     });
@@ -32,7 +35,11 @@ export class OrdersPrismaRepository implements OrdersRepository {
   async update(id: string, order: UpdateOrderDto): Promise<Order> {
     const updatedOrder = await this.prisma.order.update({
       where: { id },
-      data: { ...order },
+      data: {
+        paid: order.paid,
+        status: order.status,
+        totalPriceOrder: order.totalPriceOrder, description: order.description
+      },
       include: { products: true },
     });
 
