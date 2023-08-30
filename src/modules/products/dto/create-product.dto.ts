@@ -32,7 +32,6 @@ export class CreateProductDto {
     minLength: 3,
     maxLength: 120,
   })
-  @IsUrl()
   @IsNotEmpty()
   @MaxLength(120)
   @MinLength(3)
@@ -71,9 +70,10 @@ export class CreateProductDto {
     maxLength: 120,
   })
   @IsNotEmpty()
+  @IsUrl()
   @IsString()
   @Matches(/\.(png|jpg|jpeg|svg)$/i, {
     message: 'imgUrl must be a valid image URL (PNG, JPG, SVG)',
   })
-  imgUrl: string;
+  imageUrl: string;
 }
