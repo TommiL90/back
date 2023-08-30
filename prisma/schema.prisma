@@ -11,13 +11,14 @@ datasource db {
 }
 
 model Order {
-  id          String         @id
-  status      String
-  description String?
-  paid        Boolean
-  createdAt   DateTime
-  updatedAt   DateTime       @updatedAt
-  products    ProductOrder[]
+  id              String         @id
+  status          String
+  description     String?
+  totalPriceOrder Float?
+  paid            Boolean
+  createdAt       DateTime
+  updatedAt       DateTime       @updatedAt
+  products        ProductOrder[]
 }
 
 model Product {
@@ -34,7 +35,7 @@ model Product {
 }
 
 model Category {
-  id        String    @id @default(uuid())
+  id        String    @id
   name      String    @unique
   createdAt DateTime
   updatedAt DateTime  @updatedAt
@@ -42,10 +43,12 @@ model Category {
 }
 
 model ProductOrder {
-  id        String  @id @default(uuid())
-  productId String
-  orderId   String
-  quantity  Int
-  product   Product @relation(fields: [productId], references: [id])
-  order     Order   @relation(fields: [orderId], references: [id])
+  id         String   @id
+  productId  String
+  orderId    String
+  quantity   Int
+  totalPrice Float
+  createdAt  DateTime
+  product    Product  @relation(fields: [productId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id])
 }

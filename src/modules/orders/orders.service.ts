@@ -3,13 +3,42 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrdersRepository } from './repositories/orders.repository';
 import { Order } from './entities/order.entity';
+import { OrderProductsService } from '../order-products/order-products.service';
+import { ProductsService } from '../products/products.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(private ordersRepository: OrdersRepository) {}
+  constructor(
+    private ordersRepository: OrdersRepository,
+    private productsService: ProductsService,
+    private orderProductsService: OrderProductsService,
+  ) { }
 
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    return await this.ordersRepository.create(createOrderDto);
+  async createOrderWithProducts(createOrderDto: CreateOrderDto): Promise<Order> {
+    const newOrder = await this.ordersRepository.create(createOrderDto);
+
+    const { products } = createOrderDto; 
+
+    let totalPriceOrder = 0
+
+    for (const product of products) {
+        const {productId, quantity} = product
+
+        const productPrice = await this.productsService.findOne(productId)
+
+        totalPriceOrder += productPrice.price * quantity
+       
+        await this.orderProductsService.create({
+          productId: productId,
+          orderId: newOrder.id,
+          quantity: quantity,
+          totalPrice: productPrice.price * quantity
+        })
+    }
+
+    const order = await this.ordersRepository.update(newOrder.id, {totalPriceOrder: totalPriceOrder });
+
+    return order;
   }
 
   async findAll(): Promise<Order[]> {

@@ -8,6 +8,8 @@ export class Order {
 
   status: string;
 
+  totalPriceOrder: number;
+
   paid: boolean;
 
   createdAt: Date;
